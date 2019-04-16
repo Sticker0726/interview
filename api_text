@@ -46,7 +46,7 @@ class Chat_demo(Resource):
         elif "您好" in data:
             return {"result":"您好，您吃了吗？"}
         else:
-            return {"result":"您说啥？风太大，没听清。"}
+            return {"result":"您说的意思,我不明白，请你重新说。"}
 
 
 api.add_resource(Add_demo, '/add')
