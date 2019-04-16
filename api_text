@@ -1,0 +1,58 @@
+from flask import Flask
+from flask_restful import Api, Resource,request
+import json
+import time
+
+
+app = Flask(__name__)
+api = Api(app)
+
+
+class Add_demo(Resource):
+    def post(self):
+        """
+        计算函数
+        :return:json
+        """
+        data = json.loads(request.form['data'])
+        dic_list = data["value_array"]
+        value = 0
+        for dic in dic_list:
+            value = dic['value'] + value
+        return {'result':value}
+
+
+class Get_date_demo(Resource):
+    def get(self):
+        """
+        获取当前日期
+        :return:
+        """
+        date = time.strftime('%Y-%m-%d',time.localtime(time.time()))
+        return {"date":date}
+
+
+class Chat_demo(Resource):
+    def post(self):
+        """
+        聊天函数
+        :return:
+        """
+        data = json.loads(request.form['data'])
+        if "您好" in data and "再见" in data:
+            return {"result":"天气不错。"}
+        elif "再见" in data:
+            return {"result":"回见了您内。"}
+        elif "您好" in data:
+            return {"result":"您好，您吃了吗？"}
+        else:
+            return {"result":"您说啥？风太大，没听清。"}
+
+
+api.add_resource(Add_demo, '/add')
+api.add_resource(Get_date_demo, '/get_date')
+api.add_resource(Chat_demo, '/chat')
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
